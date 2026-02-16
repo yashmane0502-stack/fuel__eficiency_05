@@ -14,14 +14,14 @@ st.write("Enter vehicle details below to predict fuel efficiency.")
 
 # User Inputs
 mpg = st.number_input("MPG", min_value=0.0)
-cylinders = st.number_input("Cylinders", min_value=1)
-displacement = st.number_input("Displacement", min_value=0.0)
-horsepower = st.number_input("Horsepower", min_value=0.0)
-weight = st.number_input("Weight", min_value=0.0)
-acceleration = st.number_input("Acceleration", min_value=0.0)
-model_year = st.number_input("Model Year", min_value=1900)
-origin = st.number_input("Origin", min_value=1)
-car_name = st.text_input("Car Name")
+cylinders = st.number_input("cylinders", min_value=1)
+displacement = st.number_input("displacement", min_value=0.0)
+horsepower = st.number_input("horsepower", min_value=0.0)
+weight = st.number_input("weight", min_value=0.0)
+acceleration = st.number_input("acceleration", min_value=0.0)
+model_year = st.number_input("model year", min_value=1900)
+origin = st.number_input("origin", min_value=1)
+car_name = st.text_input("car name")
 
 if st.button("Predict Fuel Efficiency"):
 
