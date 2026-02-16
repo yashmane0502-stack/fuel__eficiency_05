@@ -16,13 +16,13 @@ acceleration = st.number_input("acceleration", 0.0, 50.0)
 model_year = st.number_input("model year", 1900, 2100)
 origin = st.number_input("origin", 1, 3)
 
-# Handle encoder type safely
-if isinstance(encoder, dict):
-    car_name = st.selectbox("car name", encoder["car name"].classes_)
-else:
-    car_name = st.text_input("car name")
 
 if st.button("Predict"):
+    for col in encoder:
+      df[col]= encoder[col].transform(df[col])
+
+prediction= model.predict(df)
+st.success(f"fuel efficiency: {prediction[0]:,.2f}")
 
     df = pd.DataFrame({
         "mpg": [mpg],
