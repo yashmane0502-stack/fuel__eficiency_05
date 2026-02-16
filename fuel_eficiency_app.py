@@ -15,14 +15,7 @@ weight = st.number_input("weight", 0.0, 10000.0)
 acceleration = st.number_input("acceleration", 0.0, 50.0)
 model_year = st.number_input("model year", 1900, 2100)
 origin = st.number_input("origin", 1, 3)
-
-
-if st.button("Predict"):
-    for col in encoder:
-      df[col]= encoder[col].transform(df[col])
-
-prediction= model.predict(df)
-st.success(f"fuel efficiency: {prediction[0]:,.2f}")
+car name = st.selectbox("car name",encoder["car name"].classes_)
 
     df = pd.DataFrame({
         "mpg": [mpg],
