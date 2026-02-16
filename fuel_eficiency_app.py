@@ -48,4 +48,4 @@ if st.button("Predict"):
 
     prediction = model.predict(df)
 
-    st.success(f"Fuel Efficiency: {prediction[0]:,.2f}")
+    st.success(f"Fuel Eficiency: {prediction[0]:,.2f}")
