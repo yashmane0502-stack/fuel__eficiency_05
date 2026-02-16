@@ -30,15 +30,11 @@ car name = st.selectbox("car name",encoder["car name"].classes_)
     })
 
     # Encoding
-    if isinstance(encoder, dict):
-        for col in encoder:
-            df[col] = encoder[col].transform(df[col])
-    else:
-        df["car name"] = encoder.transform(df["car name"])
+ 
 
-    # Match training column order
-    df = df[model.feature_names_in_]
+if st.button("Predict"):
+    for col in encoder:
+      df[col]= encoder[col].transform(df[col])
 
-    prediction = model.predict(df)
-
-    st.success(f"Fuel Eficiency: {prediction[0]:,.2f}")
+prediction= model.predict(df)
+st.success(f"fuel eficiency: {prediction[0]:,.2f}")
