@@ -8,6 +8,7 @@ encoder = joblib.load("label_encoder.pkl")
 
 st.title("🚗 Fuel Efficiency Prediction App")
 st.write("App started successfully ✅")
+st.write("App is running ✅")
 
 # Inputs
 mpg = st.number_input("MPG", 0.0, 100.0)
