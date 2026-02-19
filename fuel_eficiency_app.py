@@ -10,7 +10,9 @@ with open("Fuel_Efficiency_model.pkl", "rb") as f:
 with open("label_encoder.pkl", "rb") as f:
     encoder = pickle.load(f, encoding="latin1")
 
+import pickle
 pickle.dump(model, open("model.sav", "wb"))
+
 
 
 st.title("🚗 Fuel Efficiency Prediction App")
