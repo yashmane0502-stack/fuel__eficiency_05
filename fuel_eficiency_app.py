@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 model = joblib.load("Fuel_prediction_model(1).pkl")
-encoder = joblib.load("Label_encoder(5).pkl")
+encoder = joblib.load("label_encoder(5).pkl")
 
 st.title("Fuel Efficiency Prediction")
 
