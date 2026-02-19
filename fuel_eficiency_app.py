@@ -6,9 +6,9 @@ import joblib
 model = joblib.load("Fuel_Efiiciency_model.pkl")
 encoder = joblib.load("label_encoder.pkl")
 
-st.title("🚗 Fuel Efficiency Prediction")
+st.title("🚗 Fuel Efficiency Prediction App")
 
-# User Inputs
+# Inputs
 mpg = st.number_input("MPG", 0.0, 100.0)
 cylinders = st.number_input("Cylinders", 0, 16)
 displacement = st.number_input("Displacement", 0.0, 1000.0)
@@ -16,15 +16,15 @@ horsepower = st.number_input("Horsepower", 0.0, 1000.0)
 weight = st.number_input("Weight", 0.0, 10000.0)
 acceleration = st.number_input("Acceleration", 0.0, 50.0)
 model_year = st.number_input("Model Year", 1900, 2100)
-origin = st.number_input("Origin (1=USA, 2=Europe, 3=Asia)", 1, 3)
+origin = st.selectbox("Origin", [1, 2, 3])
 
-# FIXED variable name
+# Dropdown using encoder
 car_name = st.selectbox("Car Name", encoder["car name"].classes_)
 
-# Prediction Button
-if st.button("Predict"):
+# Predict button
+if st.button("Predict Fuel Efficiency"):
 
-    # Create DataFrame
+    # Create dataframe
     df = pd.DataFrame({
         "mpg": [mpg],
         "cylinders": [cylinders],
@@ -37,11 +37,11 @@ if st.button("Predict"):
         "car name": [car_name]
     })
 
-    # Encode categorical columns
+    # Apply label encoding
     for col in encoder:
         df[col] = encoder[col].transform(df[col])
 
-    # Match training feature order
+    # Ensure same column order as training
     df = df[model.feature_names_in_]
 
     # Prediction
