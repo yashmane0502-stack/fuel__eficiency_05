@@ -1,57 +1,41 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib
 
-# Load model safely
-with open("Fuel_Efficiency_model.pkl", "rb") as f:
-    model = pickle.load(f, encoding="latin1")
+model = joblib.load("Fuel_prediction_model(1).pkl")
+encoder = joblib.load("Label_encoder(5).pkl")
 
-with open("label_encoder.pkl", "rb") as f:
-    encoder = pickle.load(f, encoding="latin1")
+st.title("Fuel Efficiency Prediction")
 
-st.title("🚗 Fuel Efficiency Prediction App")
+mpg = st.number_input("mpg", 0.0, 100.0)
+cylinders = st.number_input("cylinders", 0, 16)
+displacement = st.number_input("displacement", 0.0, 1000.0)
+horsepower = st.number_input("horsepower", 0.0, 1000.0)
+weight = st.number_input("weight", 0.0, 10000.0)
+acceleration = st.number_input("acceleration", 0.0, 50.0)
+model_year = st.number_input("model year", 1900, 2100)
+origin = st.number_input("origin", 1, 3)
+car_name = st.selectbox("car name", encoder["car name"].classes_)
 
-# Inputs
-mpg = st.number_input("MPG", 0.0, 100.0)
-cylinders = st.number_input("Cylinders", 0, 16)
-displacement = st.number_input("Displacement", 0.0, 1000.0)
-horsepower = st.number_input("Horsepower", 0.0, 1000.0)
-weight = st.number_input("Weight", 0.0, 10000.0)
-acceleration = st.number_input("Acceleration", 0.0, 50.0)
-model_year = st.number_input("Model Year", 1900, 2100)
-origin = st.selectbox("Origin", [1, 2, 3])
+df = pd.DataFrame({
+    "mpg": [mpg],
+    "cylinders": [cylinders],
+    "displacement": [displacement],
+    "horsepower": [horsepower],
+    "weight": [weight],
+    "acceleration": [acceleration],
+    "model year": [model_year],
+    "origin": [origin],
+    "car name": [car_name]
+})
 
-# If encoder is dictionary
-if isinstance(encoder, dict):
-    car_name = st.selectbox("Car Name", encoder["car name"].classes_)
-else:
-    car_name = st.selectbox("Car Name", encoder.classes_)
+if st.button("Predict"):
+    for col in encoder:
+        df[col] = encoder[col].transform(df[col])
 
-# Predict button
-if st.button("Predict Fuel Efficiency"):
-
-    df = pd.DataFrame({
-        "mpg": [mpg],
-        "cylinders": [cylinders],
-        "displacement": [displacement],
-        "horsepower": [horsepower],
-        "weight": [weight],
-        "acceleration": [acceleration],
-        "model year": [model_year],
-        "origin": [origin],
-        "car name": [car_name]
-    })
-
-    # Apply encoding safely
-    if isinstance(encoder, dict):
-        for col in encoder:
-            df[col] = encoder[col].transform(df[col])
-    else:
-        df["car name"] = encoder.transform(df["car name"])
-
-    # Match training column order
     df = df[model.feature_names_in_]
 
     prediction = model.predict(df)
 
-    st.success(f"🚀 Predicted Fuel Efficiency: {prediction[0]:.2f} MPG")
+    st.success(f"Fuel Efficiency: {prediction[0]:,.2f}")
+
