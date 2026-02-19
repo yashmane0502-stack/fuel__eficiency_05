@@ -3,8 +3,14 @@ import pandas as pd
 import joblib
 
 
-model = joblib.load("Fuel_Efficiency_model.pkl")
-encoder = joblib.load("label_encoder.pkl")
+import pickle
+
+with open("Fuel_Efficiency_model.pkl", "rb") as f:
+    model = pickle.load(f, encoding="latin1")
+
+with open("label_encoder.pkl", "rb") as f:
+    encoder = pickle.load(f, encoding="latin1")
+
 
 st.title("🚗 Fuel Efficiency Prediction App")
 st.write("App started successfully ✅")
