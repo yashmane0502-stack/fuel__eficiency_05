@@ -36,6 +36,7 @@ car name = st.selectbox("car name",encoder["car name"].classes_)
 if st.button("Predict"):
     for col in encoder:
       df[col]= encoder[col].transform(df[col])
+df = df[mode1.features_names_in_]
 
 prediction= model.predict(df)
 st.success(f"Mumbai house price: {prediction[0]:,.2f}")
