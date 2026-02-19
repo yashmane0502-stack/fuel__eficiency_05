@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import altair as alt
+
 
 # Load model and encoder
 model = joblib.load("Fuel_Efiiciency_model.pkl")
