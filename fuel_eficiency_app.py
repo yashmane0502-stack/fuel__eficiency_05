@@ -2,14 +2,6 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-import sys
-import types
-
-# Fake altair module to bypass Streamlit error
-sys.modules['altair'] = types.ModuleType("altair")
-sys.modules['altair.vegalite'] = types.ModuleType("vegalite")
-sys.modules['altair.vegalite.v4'] = types.ModuleType("v4")
-
 # Load model and encoder
 model = joblib.load("Fuel_Efiiciency_model.pkl")
 encoder = joblib.load("label_encoder.pkl")
