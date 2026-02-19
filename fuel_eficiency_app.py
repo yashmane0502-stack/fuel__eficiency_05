@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load model and encoder
-joblib.dump( "Fuel_Efficiency_model.pkl")
+
+
+model = joblib.load("Fuel_Efficiency_model.pkl")
 encoder = joblib.load("label_encoder.pkl")
+
 
 st.title("🚗 Fuel Efficiency Prediction App")
 st.write("App started successfully ✅")
