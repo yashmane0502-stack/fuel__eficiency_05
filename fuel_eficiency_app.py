@@ -2,8 +2,14 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-
 import pickle
+
+with open("Fuel_Efficiency_model.pkl", "rb") as f:
+    model = pickle.load(f, encoding="latin1")
+
+with open("label_encoder.pkl", "rb") as f:
+    encoder = pickle.load(f, encoding="latin1")
+
 pickle.dump(model, open("model.sav", "wb"))
 
 
