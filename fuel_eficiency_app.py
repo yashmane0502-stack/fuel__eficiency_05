@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load model and encoder
-joblib.dump(model, "Fuel_Efficiency_model.pkl")
+joblib.dump( "Fuel_Efficiency_model.pkl")
 encoder = joblib.load("label_encoder.pkl")
 
 st.title("🚗 Fuel Efficiency Prediction App")
