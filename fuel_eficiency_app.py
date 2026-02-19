@@ -1,23 +1,15 @@
 import streamlit as st
 import pandas as pd
-import joblib
-
 import pickle
 
+# Load model safely
 with open("Fuel_Efficiency_model.pkl", "rb") as f:
     model = pickle.load(f, encoding="latin1")
 
 with open("label_encoder.pkl", "rb") as f:
     encoder = pickle.load(f, encoding="latin1")
 
-import pickle
-pickle.dump(model, open("model.sav", "wb"))
-
-
-
 st.title("🚗 Fuel Efficiency Prediction App")
-st.write("App started successfully ✅")
-st.write("App is running ✅")
 
 # Inputs
 mpg = st.number_input("MPG", 0.0, 100.0)
@@ -29,13 +21,15 @@ acceleration = st.number_input("Acceleration", 0.0, 50.0)
 model_year = st.number_input("Model Year", 1900, 2100)
 origin = st.selectbox("Origin", [1, 2, 3])
 
-# Dropdown using encoder
-car_name = st.selectbox("Car Name", encoder["car name"].classes_)
+# If encoder is dictionary
+if isinstance(encoder, dict):
+    car_name = st.selectbox("Car Name", encoder["car name"].classes_)
+else:
+    car_name = st.selectbox("Car Name", encoder.classes_)
 
 # Predict button
 if st.button("Predict Fuel Efficiency"):
 
-    # Create dataframe
     df = pd.DataFrame({
         "mpg": [mpg],
         "cylinders": [cylinders],
@@ -48,15 +42,16 @@ if st.button("Predict Fuel Efficiency"):
         "car name": [car_name]
     })
 
-    # Apply label encoding
-    for col in encoder:
-        df[col] = encoder[col].transform(df[col])
+    # Apply encoding safely
+    if isinstance(encoder, dict):
+        for col in encoder:
+            df[col] = encoder[col].transform(df[col])
+    else:
+        df["car name"] = encoder.transform(df["car name"])
 
-    # Ensure same column order as training
+    # Match training column order
     df = df[model.feature_names_in_]
 
-    # Prediction
     prediction = model.predict(df)
 
-    # Output
     st.success(f"🚀 Predicted Fuel Efficiency: {prediction[0]:.2f} MPG")
